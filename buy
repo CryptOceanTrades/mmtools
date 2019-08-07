@@ -1,0 +1,12 @@
+#!/bin/bash
+source config
+
+if [[ -z $1 ]] || [[ -z $2 ]] || [[ -z $3 ]] || [[ -z $4 ]]; then
+    echo "Usage: buy <recievecoin> <sellcoin> <rel/base ratio> <vol_recieve>"
+    exit 0
+fi
+
+coin1=$(echo $1 | tr [a-z] [A-Z]) #uppercase
+coin2=$(echo $2 | tr [a-z] [A-Z]) #uppercase
+
+jq . <<< $(curl -s --url "http://127.0.0.1:7783" --data '{"method":"buy","base":"'${coin1}'","rel":"'${coin2}'","price":"'${3}'", "volume":"'${4}'","userpass":"'${userpass}'"}')
